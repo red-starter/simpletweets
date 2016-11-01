@@ -47,6 +47,9 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
         @Bind(R.id.ivProfileImage)
         public ImageView imageView;
 
+        @Bind(R.id.tvScreenName)
+        public TextView tvScreenName;
+
         @Bind(R.id.tvUserName)
         public TextView tvUserName;
 
@@ -68,7 +71,8 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
         // Get the data model based on position
         Tweet tweet = Tweets.get(position);
 
-        viewHolder.tvUserName.setText(tweet.getUser().getScreenName());
+        viewHolder.tvUserName.setText(tweet.getUser().getName());
+        viewHolder.tvScreenName.setText(tweet.getUser().getScreenName());
         viewHolder.tvCreatedAt.setText(tweet.getRelativeCreatedAt());
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.imageView.setImageResource(0);
