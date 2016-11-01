@@ -1,8 +1,10 @@
 package com.codepath.apps.mysimpletweets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
@@ -25,9 +27,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// OAuth authenticated successfully, launch primary authenticated activity
 	// i.e Display application "homepage"
 	@Override
-	public void onLoginSuccess() {
-		// Intent i = new Intent(this, PhotosActivity.class);
-		// startActivity(i);
+	public void onLoginSuccess(){
+		Intent i = new Intent(this, TimelineActivity.class);
+		startActivity(i);
+		Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
 	}
 
 	// OAuth authentication flow failed, handle the error

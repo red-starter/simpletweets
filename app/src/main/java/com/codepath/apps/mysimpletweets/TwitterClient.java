@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
@@ -40,6 +41,35 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
 		client.get(apiUrl, params, handler);
+	}
+
+
+	public void getHomeTimeline(int page, JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		//specify the params
+		RequestParams params = new RequestParams();
+		params.put("count" , 25);
+		params.put("since_id", 25 * page);
+		//execute the method
+		client.get(apiUrl, params, handler);
+	}
+
+	public void getHomeTimeline(JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		//specify the params
+		RequestParams params = new RequestParams();
+		params.put("count" , 25);
+		params.put("since_id",1);
+		//execute the method
+		client.get(apiUrl, params, handler);
+	}
+
+	public void getCurrentUser(JsonHttpResponseHandler handler) {
+		getClient().get(getApiUrl("account/verify_credentials.json"), handler);
+	}
+
+	public void postTweet(String tweet, JsonHttpResponseHandler handler) {
+		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", tweet), handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
