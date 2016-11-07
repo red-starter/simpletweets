@@ -25,6 +25,8 @@ public class TimelineActivity extends AppCompatActivity {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
     }
+
+
 //    private int tabIcons[] = {R.drawable.ic_menu_add, @android:drawable/ic_menu_add};
 
     //    return the order of the fragments in the view pager

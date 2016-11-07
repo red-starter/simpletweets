@@ -60,7 +60,7 @@
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
     <FrameLayout
-        android:layout_below="@+id/rlUserHeader"
+        android:layout_below="@+id/llCounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/flContainer">

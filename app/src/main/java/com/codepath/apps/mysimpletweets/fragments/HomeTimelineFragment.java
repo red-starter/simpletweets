@@ -25,12 +25,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
-        populateTimeline();
+        populateTimeline(0);
+
     }
 
-
-    private void populateTimeline(){
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    private void populateTimeline(int page){
+        client.getHomeTimeline(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 addAll(Tweet.fromJSONArray(response));

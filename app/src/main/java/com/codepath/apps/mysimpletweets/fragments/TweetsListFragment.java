@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsArrayAdapter;
+import com.codepath.apps.mysimpletweets.TwitterApplication;
+import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class TweetsListFragment extends Fragment {
     private ArrayList<Tweet> tweetArrayList;
     private TweetsArrayAdapter tweetsArrayAdapter;
     RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    TwitterClient client;
 
 
     @Nullable
@@ -34,26 +38,52 @@ public class TweetsListFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.fragment_timeline);
         recyclerView.setAdapter(tweetsArrayAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
 //        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
 //            @Override
 //            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                TimelineActivity.fetchMoreHomeContent(page);
+//                populateTimeline(page);
 //            }
 //        });
+
         return v;
     }
+//    public void populateTimeline(int page){
+//        String screenName = getArguments().getString("screen_name");
+//        client.getUserTimeline(page, screenName, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                addAll(Tweet.fromJSONArray(response));
+//                Log.d("DEBUG", response.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                Log.d("DEBUG", errorResponse.toString());
+//            }
+//        });
+//    }
 
 
     //creation lifecycle event
 
-    @Override
+//    public void fetchMoreHomeContent(String endpoint, int page) {
+//        getRestClient().getHomeTimeline(page, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                addAll(Tweet.fromJSONArray(response));
+//            }
+//        });
+//    }
+    
+        @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetArrayList = new ArrayList<>();
         tweetsArrayAdapter = new TweetsArrayAdapter(getActivity(), tweetArrayList);
+        client = TwitterApplication.getRestClient();
     }
 
     public void addAll(List<Tweet> tweets){
@@ -63,7 +93,7 @@ public class TweetsListFragment extends Fragment {
 
     public void addOne(Tweet tweet){
         tweetArrayList.add(0, tweet);
-        tweetsArrayAdapter.notifyDataSetChanged();
+        tweetsArrayAdapter.notifyItemChanged(0);
     }
 
     public void clearAllTweet() {

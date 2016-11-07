@@ -3,7 +3,6 @@ package com.codepath.apps.mysimpletweets;
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -33,33 +32,36 @@ public class TwitterClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 
-	// CHANGE THIS
-	// DEFINE METHODS for different API endpoints here
-	public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-		// Can specify query string params directly or through RequestParams.
-		RequestParams params = new RequestParams();
-		params.put("format", "json");
-		client.get(apiUrl, params, handler);
-	}
+    /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
+     * 	  i.e getApiUrl("statuses/home_timeline.json");
+     * 2. Define the parameters to pass to the request (query or body)
+     *    i.e RequestParams params = new RequestParams("foo", "bar");
+     * 3. Define the request method and make a call to the client
+     *    i.e client.get(apiUrl, params, handler);
+     *    i.e client.post(apiUrl, params, handler);
+     */
 
+//	public void getEndPoint(String endpoint, int page, JsonHttpResponseHandler handler) {
+//		switch (endpoint){
+//			case "home_timeline":
+//				getHomeTimeline(page, handler);
+//			case "mentions_timeline":
+//				getMentionsTimeline(page, handler);
+//            case "user_timeline":
+//                getUserTimeline(page,  handler);
+//		}
+//	}
 
 	public void getHomeTimeline(int page, JsonHttpResponseHandler handler){
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
-		params.put("since_id", 25 * page);
-		//execute the method
-		client.get(apiUrl, params, handler);
-	}
-
-	public void getHomeTimeline(JsonHttpResponseHandler handler){
-		String apiUrl = getApiUrl("statuses/home_timeline.json");
-		//specify the params
-		RequestParams params = new RequestParams();
-		params.put("count" , 25);
-		params.put("since_id",1);
+        int since_id = 1;
+        if (page > 0){
+            since_id = 25* page;
+        }
+        params.put("since_id", since_id);
 		//execute the method
 		client.get(apiUrl, params, handler);
 	}
@@ -72,24 +74,33 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", tweet), handler);
 	}
 
-	public void getMentionsTimeline(JsonHttpResponseHandler jsonHttpResponseHandler) {
+	public void getMentionsTimeline(int page, JsonHttpResponseHandler jsonHttpResponseHandler) {
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
-		//execute the method
+        int since_id = 1;
+        if (page > 0){
+            since_id = 25* page;
+        }
+        params.put("since_id", since_id);
+        //execute the method
 		client.get(apiUrl, params, jsonHttpResponseHandler);
 	}
 
-	public void getUserTimeline(String screenName, JsonHttpResponseHandler jsonHttpResponseHandler){
+	public void getUserTimeline(int page, String screenName, JsonHttpResponseHandler jsonHttpResponseHandler){
 		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
 		params.put("screen_name", screenName);
-		//execute the method
+        int since_id = 1;
+        if (page > 0){
+            since_id = 25* page;
+        }
+        params.put("since_id", since_id);
+        //execute the method
 		client.get(apiUrl, params, jsonHttpResponseHandler);
-
 	}
 
 	public void getUserInfo(JsonHttpResponseHandler jsonHttpResponseHandler){
@@ -98,12 +109,4 @@ public class TwitterClient extends OAuthBaseClient {
 
 	}
 
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
 }

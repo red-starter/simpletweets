@@ -25,12 +25,13 @@ public class MentionsTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
-        populateTimeline();
+        populateTimeline(0);
+
+
     }
 
-
-    private void populateTimeline(){
-        client.getMentionsTimeline(new JsonHttpResponseHandler() {
+    private void populateTimeline(int page){
+        client.getMentionsTimeline(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 addAll(Tweet.fromJSONArray(response));
