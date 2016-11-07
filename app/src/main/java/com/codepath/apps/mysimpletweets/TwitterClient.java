@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -103,9 +104,18 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, jsonHttpResponseHandler);
 	}
 
-	public void getUserInfo(JsonHttpResponseHandler jsonHttpResponseHandler){
-		String apiUrl = getApiUrl("account/verify_credentials.json");
-		client.get(apiUrl, null, jsonHttpResponseHandler);
+	public void getUserInfo(String screenName, JsonHttpResponseHandler jsonHttpResponseHandler){
+		String apiUrl;
+        RequestParams rp;
+        if (screenName == null || screenName.equals("")) {
+            apiUrl = getApiUrl("account/verify_credentials.json");
+        } else {
+            apiUrl = getApiUrl("users/show.json");
+        }
+        rp = new RequestParams();
+        rp.put("screen_name", screenName);
+        Log.d("DEBUG", "SCREEN NAME IS -->" + screenName);
+        client.get(apiUrl, rp, jsonHttpResponseHandler);
 
 	}
 

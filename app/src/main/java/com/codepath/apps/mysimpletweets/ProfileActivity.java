@@ -25,12 +25,16 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         twitterClient = TwitterApplication.getRestClient();
-        twitterClient.getUserInfo(new JsonHttpResponseHandler(){
+        final String screenName = getIntent().getStringExtra("screen_name");
+        Log.d("DEBUG", "SCREEN NAME IS -->" + screenName);
+        twitterClient.getUserInfo(screenName, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
                 // current user account information
-                getSupportActionBar().setTitle('@' + user.getScreenName());
+                getSupportActionBar().setTitle('@' + screenName);
+                Log.d("DEBUG", "USER IS -->" + user.getName() + user.getScreenName() + user.getTagline()    );
+
                 populateUserHeader(user);
                 Log.d("DEBUG", response.toString());
             }
@@ -40,8 +44,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.d("DEBUG", errorResponse.toString());
             }
         });
-
-        String screenName = getIntent().getStringExtra("screen_name");
 
         if (savedInstanceState == null) {
             UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);

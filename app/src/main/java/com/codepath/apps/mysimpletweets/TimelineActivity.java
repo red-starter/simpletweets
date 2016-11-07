@@ -76,7 +76,7 @@ public class TimelineActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
                 Tweet tweet = new Tweet();
                 tweet.setBody(data.getStringExtra("body"));
-                User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
+                User user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
                 tweet.setUser(user);
                 postNewTweet(tweet);
         }
