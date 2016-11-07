@@ -25,8 +25,8 @@ import java.util.List;
 
 public abstract class TweetsListFragment extends Fragment {
     //inflation logic
-    private ArrayList<Tweet> tweetArrayList;
-    private TweetsArrayAdapter tweetsArrayAdapter;
+    ArrayList<Tweet> tweetArrayList;
+    TweetsArrayAdapter tweetsArrayAdapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     TwitterClient client;
@@ -54,22 +54,6 @@ public abstract class TweetsListFragment extends Fragment {
 
         return v;
     }
-//    public void populateTimeline(int page){
-//        String screenName = getArguments().getString("screen_name");
-//        client.getUserTimeline(page, screenName, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                addAll(Tweet.fromJSONArray(response));
-//                Log.d("DEBUG", response.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Log.d("DEBUG", errorResponse.toString());
-//            }
-//        });
-//    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,10 +68,6 @@ public abstract class TweetsListFragment extends Fragment {
         tweetsArrayAdapter.notifyDataSetChanged();
     }
 
-    public void addOne(Tweet tweet){
-        tweetArrayList.add(0, tweet);
-        tweetsArrayAdapter.notifyItemChanged(0);
-    }
 
     public void clearAllTweet() {
         tweetArrayList.clear();

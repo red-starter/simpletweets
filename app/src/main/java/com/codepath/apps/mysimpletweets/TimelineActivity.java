@@ -8,17 +8,26 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
+import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.codepath.apps.mysimpletweets.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     private static final int CREATE_TWEET_REQUEST_CODE = 100;
-
+    TweetsPagerAdapter tweetsPagerAdapter;
 
     public void onProfileView(MenuItem item) {
         //launch profile view
@@ -27,11 +36,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
-//    private int tabIcons[] = {R.drawable.ic_menu_add, @android:drawable/ic_menu_add};
-
-    //    return the order of the fragments in the view pager
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 0;
         private String tabTitles[] = {"Home", "Mentions"};
         public TweetsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -46,11 +51,6 @@ public class TimelineActivity extends AppCompatActivity {
             }
             return null;
         }
-
-//        @Override
-//        public int getPageIconResId(int position) {
-//            return tabIcons[position];
-//        }
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -69,7 +69,8 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+        tweetsPagerAdapter = new TweetsPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(tweetsPagerAdapter);
         // Lookup the recyclerview in activity layout
         PagerSlidingTabStrip pagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pagerSlidingTabStrip.setViewPager(viewPager);
@@ -91,16 +92,6 @@ public class TimelineActivity extends AppCompatActivity {
 //                android.R.color.holo_red_light);
 
     }
-//    public static void fetchMoreHomeContent(int page) {
-//        getRestClient().getHomeTimeline(page, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//
-//                super.onSuccess(statusCode, headers, response);
-//                tweetsListFragment.addAll(Tweet.fromJSONArray(response));
-//            }
-//        });
-//    }
 
 
     public void launchCreateTweetView() {
@@ -129,59 +120,38 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == CREATE_TWEET_REQUEST_CODE){
-//            handleCreateTweet(resultCode, data);
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CREATE_TWEET_REQUEST_CODE){
+            handleCreateTweet(resultCode, data);
+        }
+    }
 
-//    private void handleCreateTweet(int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK) {
-//                Tweet tweet = new Tweet();
-//                tweet.setBody(data.getStringExtra("body"));
-//                User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
-//                tweet.setUser(user);
-//                postNewTweet(tweet);
-//        }
-//    }
+    private void handleCreateTweet(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+                Tweet tweet = new Tweet();
+                tweet.setBody(data.getStringExtra("body"));
+                User user = (User) Parcels.unwrap(getIntent().getParcelableExtra("user"));
+                tweet.setUser(user);
+                postNewTweet(tweet);
+        }
+    }
 
-//    protected void postNewTweet(final Tweet tweet) {
-//        TwitterApplication.getRestClient().postTweet(tweet.getBody(), new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                super.onSuccess(statusCode, headers, response);
-//                TweetsListFragment.addOne(Tweet.fromJSON(response));
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Log.d("DEBUG", errorResponse.toString());
-//            }
-//        });
-//    }
+    void postNewTweet(final Tweet tweet) {
+        TwitterApplication.getRestClient().postTweet(tweet.getBody(), new JsonHttpResponseHandler() {
 
-//    public void fetchTimelineAsync(int page) {
-//        // Send the network request to fetch the updated data
-//        // `client` here is an instance of Android Async HTTP
-//        // getHomeTimeline is an example endpoint.
-//
-//        client.getHomeTimeline(new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                // Remember to CLEAR OUT old items before appending in the new ones
-//                TweetsListFragment.clearAllTweet();
-//                // ...the data has come back, add new items to your adapter...
-//                TweetsListFragment.addAll(Tweet.fromJSONArray(response));
-//                // Now we call setRefreshing(false) to signal refresh has finished
-//                swipeContainer.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Log.d("DEBUG", "Fetch timeline error: " + errorResponse.toString());
-//            }
-//        });
-//    }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", response.toString());
+//                TweetsListFragment homeFragment = (HomeTimelineFragment) tweetsPagerAdapter.;
+//                getFragmentManager().findFragmentById()
+//                HomeTimelineFragment.addOne(Tweet.fromJSON(response));
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", errorResponse.toString());
+            }
+        });
+    }
 }
