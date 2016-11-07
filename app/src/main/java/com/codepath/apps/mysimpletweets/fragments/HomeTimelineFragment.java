@@ -44,8 +44,5 @@ public class HomeTimelineFragment extends TweetsListFragment {
         });
     }
 
-    public void addOne(Tweet tweet){
-        tweetArrayList.add(0, tweet);
-        tweetsArrayAdapter.notifyItemChanged(0);
-    }
+
 }

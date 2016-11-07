@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.mysimpletweets.EndlessScrollListener;
 import com.codepath.apps.mysimpletweets.R;
-import com.codepath.apps.mysimpletweets.TweetsArrayAdapter;
+import com.codepath.apps.mysimpletweets.Adapters.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -73,5 +73,11 @@ public abstract class TweetsListFragment extends Fragment {
         tweetArrayList.clear();
         tweetsArrayAdapter.notifyDataSetChanged();
     }
+
+    public void addOne(Tweet tweet){
+        tweetArrayList.add(0, tweet);
+        tweetsArrayAdapter.notifyItemChanged(0);
+    }
+
 
 }
