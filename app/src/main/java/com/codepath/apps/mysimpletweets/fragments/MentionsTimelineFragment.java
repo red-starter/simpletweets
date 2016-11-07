@@ -30,7 +30,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 
     }
 
-    private void populateTimeline(int page){
+    void populateTimeline(int page){
         client.getMentionsTimeline(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.apps.mysimpletweets.EndlessScrollListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by michaelsova on 11/3/16.
  */
 
-public class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment {
     //inflation logic
     private ArrayList<Tweet> tweetArrayList;
     private TweetsArrayAdapter tweetsArrayAdapter;
@@ -30,6 +31,7 @@ public class TweetsListFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     TwitterClient client;
 
+    abstract void populateTimeline(int page);
 
     @Nullable
     @Override
@@ -41,12 +43,14 @@ public class TweetsListFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-//        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                populateTimeline(page);
-//            }
-//        });
+        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                populateTimeline(page);
+            }
+        });
+
 
         return v;
     }
@@ -67,18 +71,7 @@ public class TweetsListFragment extends Fragment {
 //    }
 
 
-    //creation lifecycle event
-
-//    public void fetchMoreHomeContent(String endpoint, int page) {
-//        getRestClient().getHomeTimeline(page, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                addAll(Tweet.fromJSONArray(response));
-//            }
-//        });
-//    }
-    
-        @Override
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetArrayList = new ArrayList<>();

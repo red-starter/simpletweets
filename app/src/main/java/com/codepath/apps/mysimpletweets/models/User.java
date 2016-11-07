@@ -13,9 +13,9 @@ public class User {
     Long uid;
     String screenName;
     String proileImageUrl;
-    private String tagline;
-    private int followersCount;
-    private int followingCount;
+    String tagline;
+    int followersCount;
+    int followingCount;
 
     public User(){
 

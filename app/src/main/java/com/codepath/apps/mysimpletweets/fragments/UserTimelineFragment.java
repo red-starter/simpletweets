@@ -37,7 +37,7 @@ public class UserTimelineFragment extends TweetsListFragment {
         return userTimelineFragment;
     }
 
-    public void populateTimeline(int page){
+    protected void populateTimeline(int page){
         String screenName = getArguments().getString("screen_name");
         client.getUserTimeline(page, screenName, new JsonHttpResponseHandler() {
             @Override
