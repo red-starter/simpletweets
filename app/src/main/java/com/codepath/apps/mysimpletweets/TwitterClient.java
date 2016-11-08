@@ -42,27 +42,17 @@ public class TwitterClient extends OAuthBaseClient {
      *    i.e client.post(apiUrl, params, handler);
      */
 
-//	public void getEndPoint(String endpoint, int page, JsonHttpResponseHandler handler) {
-//		switch (endpoint){
-//			case "home_timeline":
-//				getHomeTimeline(page, handler);
-//			case "mentions_timeline":
-//				getMentionsTimeline(page, handler);
-//            case "user_timeline":
-//                getUserTimeline(page,  handler);
-//		}
-//	}
-
-	public void getHomeTimeline(int page, JsonHttpResponseHandler handler){
+	public void getHomeTimeline(Long maxId, Long sinceId, JsonHttpResponseHandler handler){
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
-        int since_id = 1;
-        if (page > 0){
-            since_id = 25* page;
+        if (maxId != null) {
+            params.put("max_id", maxId);
         }
-        params.put("since_id", since_id);
+        if (sinceId != null) {
+            params.put("since_id", sinceId);
+        }
 		//execute the method
 		client.get(apiUrl, params, handler);
 	}
@@ -75,31 +65,33 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", tweet), handler);
 	}
 
-	public void getMentionsTimeline(int page, JsonHttpResponseHandler jsonHttpResponseHandler) {
+	public void getMentionsTimeline(Long maxId, Long sinceId, JsonHttpResponseHandler jsonHttpResponseHandler) {
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
-        int since_id = 1;
-        if (page > 0){
-            since_id = 25* page;
+        if (maxId != null) {
+            params.put("max_id", maxId);
         }
-        params.put("since_id", since_id);
+        if (sinceId != null) {
+            params.put("since_id", sinceId);
+        }
         //execute the method
 		client.get(apiUrl, params, jsonHttpResponseHandler);
 	}
 
-	public void getUserTimeline(int page, String screenName, JsonHttpResponseHandler jsonHttpResponseHandler){
+	public void getUserTimeline(Long maxId, Long sinceId, String screenName, JsonHttpResponseHandler jsonHttpResponseHandler){
 		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		//specify the params
 		RequestParams params = new RequestParams();
 		params.put("count" , 25);
 		params.put("screen_name", screenName);
-        int since_id = 1;
-        if (page > 0){
-            since_id = 25* page;
+        if (maxId != null) {
+            params.put("max_id", maxId);
         }
-        params.put("since_id", since_id);
+        if (sinceId != null) {
+            params.put("since_id", sinceId);
+        }
         //execute the method
 		client.get(apiUrl, params, jsonHttpResponseHandler);
 	}

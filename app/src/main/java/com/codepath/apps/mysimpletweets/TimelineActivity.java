@@ -25,13 +25,14 @@ import github.chenupt.springindicator.SpringIndicator;
 public class TimelineActivity extends AppCompatActivity {
     private static final int CREATE_TWEET_REQUEST_CODE = 100;
     TweetsPagerAdapter tweetsPagerAdapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         tweetsPagerAdapter = new TweetsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tweetsPagerAdapter);
         // Lookup the recyclerview in activity layout
@@ -96,6 +97,8 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.d("DEBUG", response.toString());
                 TweetsListFragment homeFragment = (HomeTimelineFragment) tweetsPagerAdapter.getRegisteredFragment(0);
                 homeFragment.addOne(Tweet.fromJSON(response));
+                homeFragment.getRecyclerView().scrollToPosition(0);
+                viewPager.setCurrentItem(0);
             }
 
             @Override

@@ -27,11 +27,16 @@ public abstract class TweetsListFragment extends Fragment {
     //inflation logic
     ArrayList<Tweet> tweetArrayList;
     TweetsArrayAdapter tweetsArrayAdapter;
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     TwitterClient client;
 
-    abstract void populateTimeline(int page);
+    abstract void populateTimeline(Long maxId, Long sinceId);
 
     @Nullable
     @Override
@@ -46,11 +51,9 @@ public abstract class TweetsListFragment extends Fragment {
         recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                populateTimeline(page);
+                populateTimeline(tweetArrayList.get(totalItemsCount-1).getUid(), null);
             }
         });
-
 
         return v;
     }
