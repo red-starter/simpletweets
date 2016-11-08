@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
@@ -76,11 +77,12 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetsArrayAdapter.
         final Tweet tweet = Tweets.get(position);
 
         viewHolder.tvUserName.setText(tweet.getUser().getName());
-        viewHolder.tvScreenName.setText(tweet.getUser().getScreenName());
+        viewHolder.tvScreenName.setText("@"+tweet.getUser().getScreenName());
         viewHolder.tvCreatedAt.setText(tweet.getRelativeCreatedAt());
         viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.imageView.setImageResource(0);
-        Picasso.with(getContext()).load(tweet.getUser().getProileImageUrl()).into(viewHolder.imageView);
+        Picasso.with(getContext()).load(tweet.getUser().getProileImageUrl()).transform(new RoundedCornersTransformation(7, 6)).into(viewHolder.imageView);
+
 
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

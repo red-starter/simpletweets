@@ -4,17 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignTop="@+id/ivProfileImage"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:id="@+id/tvUserName" />
-
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -26,7 +15,44 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Testing somewhat name"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/ivProfileImage"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:id="@+id/tvUserName"
+        />
+
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:text="theeconomist"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@id/ivProfileImage"
+        android:layout_toRightOf="@id/tvUserName"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:text="5 minutes ago"
+        android:textStyle="italic"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,22 +60,9 @@
         android:ems="10"
         android:id="@+id/tvBody"
         android:autoLink="all"
+        android:text="helllo this is a long text so that, yeah i know we can tell what is up"
         android:linksClickable="true"
         android:layout_below="@+id/tvUserName"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
-
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_toRightOf="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_below="@+id/tvCreatedAt"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tvCreatedAt"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_toRightOf="@+id/ivProfileImage"/>
 </RelativeLayout>
