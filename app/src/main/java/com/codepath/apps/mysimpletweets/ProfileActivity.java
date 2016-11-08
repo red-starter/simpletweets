@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient twitterClient;
@@ -63,8 +66,9 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvName.setText(user.getName());
         tvTagline.setText(user.getTagline());
-        tvFollowers.setText(user.getFollowersCount() + "followers");
-        tvFollowing.setText(user.getFollowingCount() + "following");
-        Picasso.with(this).load(user.getProileImageUrl()).into(ivProfileImage);
+        tvFollowers.setText(user.getFollowersCount() + " followers");
+        tvFollowing.setText(user.getFollowingCount() + " following");
+        Picasso.with(getContext()).load(user.getProileImageUrl()).transform(new RoundedCornersTransformation(7, 6)).into(ivProfileImage);
+
     }
 }

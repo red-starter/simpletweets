@@ -7,11 +7,13 @@ package com.codepath.apps.mysimpletweets.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
 
-public class TweetsPagerAdapter extends SmartAdapter {
+public class TweetsPagerAdapter extends SmartAdapter  {
     private String tabTitles[] = {"Home", "Mentions"};
+    private int tabIcons[] = {R.drawable.ic_launcher, R.drawable.ic_launcher};
 
     public TweetsPagerAdapter(FragmentManager fm) {
         super(fm);

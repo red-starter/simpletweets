@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.codepath.apps.mysimpletweets.Adapters.TweetsPagerAdapter;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
+import github.chenupt.springindicator.SpringIndicator;
 
 public class TimelineActivity extends AppCompatActivity {
     private static final int CREATE_TWEET_REQUEST_CODE = 100;
@@ -34,8 +35,13 @@ public class TimelineActivity extends AppCompatActivity {
         tweetsPagerAdapter = new TweetsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tweetsPagerAdapter);
         // Lookup the recyclerview in activity layout
-        PagerSlidingTabStrip pagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        pagerSlidingTabStrip.setViewPager(viewPager);
+        //PagerSlidingTabStrip pagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        //pagerSlidingTabStrip.setViewPager(viewPager);
+
+        viewPager.setPageTransformer(true, new RotateUpTransformer());
+
+        SpringIndicator indicator = (SpringIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
     }
 
 

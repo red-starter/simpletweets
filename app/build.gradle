@@ -40,8 +40,12 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
+    compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
 
     compile 'org.parceler:parceler-api:1.1.1'
     apt 'org.parceler:parceler:1.1.1'
