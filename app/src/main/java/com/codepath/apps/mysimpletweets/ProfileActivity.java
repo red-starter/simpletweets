@@ -35,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
                 // current user account information
-                getSupportActionBar().setTitle('@' + screenName);
+                getSupportActionBar().setTitle('@' + user.getScreenName());
                 Log.d("DEBUG", "USER IS -->" + user.getName() + user.getScreenName() + user.getTagline()    );
 
                 populateUserHeader(user);
